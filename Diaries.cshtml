@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Diaries";
+}
+
+
+@model IEnumerable<Schoolboy_diary.Models.Diary>
+@{
+    Layout = null;
+}
+
+    <!doctype html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <title>Дневник школьника</title>
+        <link rel="stylesheet" href="~/Content/styles.css" type="text/css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                <a href="/"><img src="~/images/logo.png" alt="Whitesquare logo"></a>
+
+            </header>
+            <nav>
+                <ul class="top-menu">
+                    <li><a href="~/Home/Index">Домой</a></li>
+                    <li><a href="~/Diary/DiariesUser">Проверить дневник</a></li>
+                    <li class="active">Дневники</li>
+                    <li><a href="~/School/Schools">Школьники</a></li>
+                    <li><a href="~/Account/Login">Войти</a></li>
+                    <li><a href="~/Account/Register">Регистрация</a></li>
+                </ul>
+            </nav>
+            <div id="heading">
+                <h1>Управление дневниками</h1>
+            </div>
+            <aside>
+                <nav>
+                    <ul class="aside-menu">
+                        <li class="active">Что такое</li>
+                        <li><a href="/donec/">Для чего нужен</a></li>
+                        <li><a href="/vestibulum/">Как войти</a></li>
+                        <li><a href="/etiam/">Как пользоваться</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <section>
+                <blockquote>
+                    <p>
+                        &ldquo; Дневники  &rdquo;
+                    </p>
+                </blockquote>
+                <p>
+                    @{ var grid = new WebGrid(Model); }
+                    <div>
+                        @grid.GetHtml(columns: grid.Columns(
+                                                                 grid.Column("Id", "Id"),
+                                                                 grid.Column("Date", "Дата"),
+                                                                 grid.Column("NumLesson", "Номер урока"),
+                                                                 grid.Column("NameLesson", "Предмет"),
+                                                                 grid.Column("Mark", "Оценка"),
+                                                                 grid.Column("Homework", "Домашнее задание"),
+                                                                 grid.Column("Note", "Примечание"),
+                                                                 grid.Column("SchoolId", "SchoolId"),
+                                                                 grid.Column("Редактировать", format: @<a href="~/Diary/EditDiary/@item.Id"> Редактировать</a>),
+                                                                                                                      grid.Column("Удалить", format: @<a href="~/Diary/DeleteDiary/@item.Id"> Удалить</a>)
+                                                                                                                 ), tableStyle: "table-bordered")
+                    </div>
+                    <input type="button" value="Добавить" onClick='location.href="CreateDiary"'>
+                </p>
+            </section>
+        </div>
+    </body>
+</html>

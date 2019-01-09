@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "EditDiary";
+}
+
+@{
+    ViewBag.Title = "Редактировать";
+    Layout = null;
+}
+
+    <!doctype html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <title>Дневник школьника</title>
+        <link rel="stylesheet" href="~/Content/styles.css" type="text/css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                <a href="/"><img src="~/images/logo.png" alt="Whitesquare logo"></a>
+
+            </header>
+            <nav>
+                <ul class="top-menu">
+                    <li><a href="~/Home/Index">Домой</a></li>
+                    <li><a href="~/Diary/DiariesUser">Проверить дневник</a></li>
+                    <li class="active">Дневники</li>
+                    <li><a href="~/School/Schools">Школьники</a></li>
+                    <li><a href="~/Account/Login">Войти</a></li>
+                    <li><a href="~/Account/Register">Регистрация</a></li>
+                </ul>
+            </nav>
+            <div id="heading">
+                <h1>Управление дневниками</h1>
+            </div>
+            <aside>
+                <nav>
+                    <ul class="aside-menu">
+                        <li class="active">Что такое</li>
+                        <li><a href="/donec/">Для чего нужен</a></li>
+                        <li><a href="/vestibulum/">Как войти</a></li>
+                        <li><a href="/etiam/">Как пользоваться</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <section>
+                <blockquote>
+                    <p>
+                        &ldquo; Изменить дневник  &rdquo;
+                    </p>
+                </blockquote>
+
+                <script type="text/javascript">
+                    function checkForm() {
+                        var regex = new RegExp("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.]((19|20)\\d\\d)$");
+                        var date = $('#Date').val();
+                        var NumLesson = $('#NumLesson').val();
+                        var NameLesson = $('#NameLesson').val();
+                        var Mark = $('#Mark').val();
+                        var Homework = $('#Homework').val();
+                        var Note = $('#Note').val();
+                        var SchoolId = $('#SchoolId').val();
+
+                        var submitButton = $('#submitButton');
+
+                        if ((NumLesson == "") || (NameLesson == "") || (Mark == "") || (Homework == "") || (Note == "") || (SchoolId == "") || (date == "") || (regex.test(date) == false)) {
+
+                            submitButton.prop('disabled', true);
+                        }
+                        else {
+                            submitButton.prop('disabled', false);
+                        }
+                    }</script>
+
+                @Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+                @Scripts.Render("~/scripts/jquery.validate.min.js")
+                @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+
+                @model Schoolboy_diary.Models.Diary
+                <h2>Дневник № @Model.Id</h2>
+                @using (Html.BeginForm("UpdateDiary", "Diary", FormMethod.Post))
+                {
+                    <fieldset>
+                        @Html.HiddenFor(m => m.Id)
+                        <p>
+                            @Html.LabelFor(m => m.Date, "Дата")
+                            <br />
+                            @Html.EditorFor(m => m.Date, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NumLesson, "Номер урока")
+                            <br />
+                            @Html.EditorFor(m => m.NumLesson, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.NameLesson, "Предмет")
+                            <br />
+                            @Html.EditorFor(m => m.NameLesson, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.Mark, "Оценка")
+                            <br />
+                            @Html.EditorFor(m => m.Mark, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.Homework, "Домашнее задание")
+                            <br />
+                            @Html.EditorFor(m => m.Homework, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.Note, "Примечание")
+                            <br />
+                            @Html.EditorFor(m => m.Note, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p>
+                            @Html.LabelFor(m => m.SchoolId, "Школьник")
+                            <br />
+                            @Html.DropDownListFor(model => model.SchoolId, ViewBag.Schools as SelectList, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <p><input id="submitButton" type="submit" value="Отправить" disabled /></p>
+                    </fieldset>
+                }
+            </section>
+        </div>
+    </body>
+</html>
