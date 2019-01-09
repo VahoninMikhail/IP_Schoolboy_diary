@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "EditSchool";
+}
+
+@{
+    ViewBag.Title = "Редактировать";
+    Layout = null;
+}
+
+    <!doctype html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <title>Дневник школьника</title>
+        <link rel="stylesheet" href="~/Content/styles.css" type="text/css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,300" type="text/css">
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                <a href="/"><img src="~/images/logo.png" alt="Whitesquare logo"></a>
+
+            </header>
+            <nav>
+                <ul class="top-menu">
+                    <li><a href="~/Home/Index">Домой</a></li>
+                    <li><a href="~/Diary/DiariesUser">Проверить дневник</a></li>
+                    <li><a href="~/Diary/Diaries">Дневники</a></li>
+                    <li class="active">Школьники</li>
+                    <li><a href="~/Account/Login">Войти</a></li>
+                    <li><a href="~/Account/Register">Регистрация</a></li>
+                </ul>
+            </nav>
+            <div id="heading">
+                <h1>Управление записями о школьниках</h1>
+            </div>
+            <aside>
+                <nav>
+                    <ul class="aside-menu">
+                        <li class="active">Что такое</li>
+                        <li><a href="/donec/">Для чего нужен</a></li>
+                        <li><a href="/vestibulum/">Как войти</a></li>
+                        <li><a href="/etiam/">Как пользоваться</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <section>
+                <blockquote>
+                    <p>
+                        &ldquo; Изменить школьника  &rdquo;
+                    </p>
+                </blockquote>
+
+                <script type="text/javascript">
+                    function checkForm() {
+                        var Name = $('#Name').val();
+                        var Grade = $('#Grade').val();
+
+                        var submitButton = $('#submitButton');
+
+                        if ((Name == "") || (Grade == "")) {
+
+                            submitButton.prop('disabled', true);
+                        }
+                        else {
+                            submitButton.prop('disabled', false);
+                        }
+                    }</script>
+
+                @Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+                @Scripts.Render("~/scripts/jquery.validate.min.js")
+                @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+
+                @model Schoolboy_diary.Models.School
+                @using (Html.BeginForm("UpdateSchool", "School", FormMethod.Post))
+                {
+                    <fieldset>
+                        @Html.HiddenFor(m => m.Id)
+                        <p>
+                            @Html.LabelFor(m => m.Name, "ФИО")
+                            <br />
+                            @Html.EditorFor(m => m.Name, new { htmlAttributes = new { onchange = "checkForm()" } })
+                            <br />
+                            @Html.LabelFor(m => m.Grade, "Класс")
+                            <br />
+                            @Html.EditorFor(m => m.Grade, new { htmlAttributes = new { onchange = "checkForm()" } })
+                        </p>
+                        <input id="submitButton" type="submit" value="Отправить" disabled />
+                    </fieldset>
+                }
+            </section>
+        </div>
+    </body>
+</html>
